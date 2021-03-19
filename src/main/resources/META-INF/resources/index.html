@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trino demo</title>
+    <link rel="stylesheet" href="css/awsm.css"/>
+    <link rel="stylesheet" href="css/highlight.css"/>
+</head>
+<body>
+<main>
+    <button onclick="overview()">Show overview</button>
+    <button onclick="count()">Count tasks per person</button>
+    <hr/>
+    <fieldset>
+        <legend>Result</legend>
+        <pre><code id="result" class="json">[]</code></pre>
+    </fieldset>
+    <hr/>
+    <fieldset>
+        <legend>Query</legend>
+        <pre><code id="query" class="sql">SELECT * FROM tablename;</code></pre>
+    </fieldset>
+</main>
+<script src="js/sql.js"></script>
+<script src="js/highlight.js"></script>
+<script>
+    const query = document.getElementById('query');
+    const result = document.getElementById('result');
+
+    document.addEventListener('DOMContentLoaded', highlightCode);
+
+    function overview() {
+        displayFor('overview');
+    }
+
+    function count() {
+        displayFor('count');
+    }
+
+    async function displayFor(path) {
+        query.innerText = '...';
+        result.innerText = '...';
+        const response = await fetch(`/api/trino/${path}`);
+        const {query: queryText, data} = await response.json();
+        query.innerText = sqlFormatter.format(queryText, {uppercase: true});
+        result.innerText = JSON.stringify(data, null, 2);
+        highlightCode();
+    }
+
+    function highlightCode() {
+        document.querySelectorAll('pre code').forEach(hljs.highlightBlock);
+    }
+</script>
+</body>
+</html>
