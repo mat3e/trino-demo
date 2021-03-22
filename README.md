@@ -1,4 +1,4 @@
-[Trino](https://trino.io/) is a distributed SQL engine, which reads (and writes) data directly from their sources.
+[Trino](https://trino.io/) is a distributed SQL engine, which reads (and writes) data directly from their sources. [My tech talk](https://github.com/mat3e/talks/tree/master/docs/sql).
 
 # Trino demo
 This project uses Quarkus and JDBC to connect with Trino.
